@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>VoteChain Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="title">
+Methodist College of Engineering and Technology
+</div>
+
+<div class="marquee">
+<marquee>Secure Blockchain Voting System</marquee>
+</div>
+
+<div class="card">
+
+<h2>Login</h2>
+
+<input id="voterId" placeholder="Voter ID">
+
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+</div>
+
+<script>
+
+async function login(){
+
+const voterId=document.getElementById("voterId").value;
+const password=document.getElementById("password").value;
+
+const res=await fetch("http://localhost:3000/login",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({voterId,password})
+
+});
+
+const data=await res.json();
+
+if(data.token){
+
+localStorage.setItem("token",data.token);
+
+window.location="election.html";
+
+}else{
+
+alert("Login failed");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

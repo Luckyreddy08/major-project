@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VoteChain - College Election</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f6f9;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    input {
+      padding: 8px;
+      margin: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background: #3498db;
+      color: #fff;
+    }
+
+    button:hover {
+      background: #2980b9;
+    }
+
+    .card {
+      background: #fff;
+      padding: 15px;
+      margin: 15px auto;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    #message {
+      margin: 12px;
+      font-weight: bold;
+    }
+
+    #results, #explorer {
+      margin: 12px auto;
+      width: 95%;
+      text-align: left;
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      font-size: 13px;
+      word-break: break-all;
+    }
+
+    th {
+      background: #34495e;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background: #ecf0f1;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🎓 College Student Council Election</h1>
+
+<!-- LOGIN -->
+<div>
+  <input id="voterId" placeholder="Voter ID (e.g. voter1)" />
+  <input id="password" type="password" placeholder="Password (e.g. pass1)" />
+  <button onclick="login()">Login</button>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div id="message"></div>
+
+<h2>Candidates</h2>
+<div id="candidates"></div>
+
+<h2>Results</h2>
+<div id="results"></div>
+
+<h2>Blockchain Explorer</h2>
+<button onclick="loadExplorer()">View Blockchain</button>
+<div id="explorer"></div>
+
+<script>
+const BASE = "http://localhost:3000";
+let token = localStorage.getItem("voteToken") || "";
+
+window.onload = () => {
+  loadCandidates();
+  loadResults();
+};
+
+// ---------------- LOGIN ----------------
+async function login() {
+  const voterId = document.getElementById("voterId").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!voterId || !password) {
+    showMessage("❌ Enter both ID and password");
+    return;
+  }
+
+  const res = await fetch(BASE + "/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ voterId, password }),
+  });
+
+  const data = await res.json();
+
+  if (data.token) {
+    token = data.token;
+    localStorage.setItem("voteToken", token);
+    showMessage("✅ Logged in successfully");
+  } else {
+    showMessage("❌ Login failed");
+  }
+}
+
+// ---------------- LOGOUT ----------------
+function logout() {
+  token = "";
+  localStorage.removeItem("voteToken");
+  showMessage("✅ Logged out");
+}
+
+// ---------------- LOAD CANDIDATES ----------------
+async function loadCandidates() {
+  const res = await fetch(BASE + "/candidates");
+  const data = await res.json();
+
+  const container = document.getElementById("candidates");
+  container.innerHTML = "";
+
+  data.forEach(c => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${c.name}</h3>
+      <p><b>Department:</b> ${c.department}</p>
+      <p><b>Year:</b> ${c.year}</p>
+      <p><b>Position:</b> ${c.position}</p>
+      <button onclick="castVote('${c.id}')">Vote</button>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ---------------- CAST VOTE ----------------
+async function castVote(candidateId) {
+  if (!token) {
+    showMessage("❌ Please login first.");
+    return;
+  }
+
+  const password = prompt("Confirm your password to vote:");
+  if (!password) return;
+
+  const res = await fetch(BASE + "/vote", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ candidateId, password })
+  });
+
+  const text = await res.text();
+  showMessage(text);
+  loadResults();
+}
+
+// ---------------- LOAD RESULTS ----------------
+async function loadResults() {
+  const res = await fetch(BASE + "/results");
+  const data = await res.json();
+
+  const container = document.getElementById("results");
+  container.innerHTML = "";
+
+  data.forEach(r => {
+    container.innerHTML += `
+      <p><b>${r.candidate}</b> (${r.department}) : ${r.votes} votes</p>
+    `;
+  });
+}
+
+// ---------------- BLOCKCHAIN EXPLORER ----------------
+async function loadExplorer() {
+  const res = await fetch(BASE + "/explorer");
+  const data = await res.json();
+
+  let html = "<table><tr><th>Index</th><th>Timestamp</th><th>Data</th><th>Hash</th><th>PrevHash</th></tr>";
+
+  data.forEach(b => {
+    html += `
+      <tr>
+        <td>${b.index}</td>
+        <td>${new Date(b.timestamp).toLocaleString()}</td>
+        <td>${JSON.stringify(b.data)}</td>
+        <td>${b.hash.substring(0,20)}...</td>
+        <td>${b.previousHash.substring(0,20)}...</td>
+      </tr>
+    `;
+  });
+
+  html += "</table>";
+  document.getElementById("explorer").innerHTML = html;
+}
+
+// ---------------- MESSAGE ----------------
+function showMessage(msg) {
+  document.getElementById("message").innerText = msg;
+}
+</script>
+
+</body>
+</html>

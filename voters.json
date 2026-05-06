@@ -1,0 +1,27 @@
+[
+  {
+    "voterId": "22MCET201",
+    "password": "mcet201",
+    "hasVoted": true
+  },
+  {
+    "voterId": "22MCET202",
+    "password": "mcet202",
+    "hasVoted": true
+  },
+  {
+    "voterId": "22MCET203",
+    "password": "mcet203",
+    "hasVoted": false
+  },
+  {
+    "voterId": "22MCET204",
+    "password": "mcet204",
+    "hasVoted": true
+  },
+  {
+    "voterId": "22MCET205",
+    "password": "mcet205",
+    "hasVoted": true
+  }
+]

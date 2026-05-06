@@ -1,0 +1,6 @@
+@echo off
+cd /d "C:\Users\DELL\OneDrive\Desktop\VoteChain"
+
+start "Node3000" cmd /k start3000.bat
+start "Node3001" cmd /k start3001.bat
+start "Node3002" cmd /k start3002.bat

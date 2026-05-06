@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Election Results</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="title">
+Live Election Results
+</div>
+
+<div class="card">
+
+<canvas id="resultChart"></canvas>
+
+</div>
+
+</div>
+
+<script>
+
+let chart;
+
+async function loadResults(){
+
+const res = await fetch("http://localhost:3000/results");
+const results = await res.json();
+
+const nameMap = {
+C1: "Rahul Sharma",
+C2: "Ananya Reddy"
+};
+
+const labels = Object.keys(results).map(id => nameMap[id]);
+const votes = Object.values(results);
+
+const ctx = document.getElementById("resultChart");
+
+// Destroy old chart before creating new one
+if(chart){
+chart.destroy();
+}
+
+chart = new Chart(ctx,{
+
+type:'bar',
+
+data:{
+labels:labels,
+datasets:[{
+label:'Votes',
+data:votes,
+backgroundColor:[
+'#4CAF50',
+'#2196F3'
+]
+}]
+},
+
+options:{
+responsive:true
+}
+
+});
+
+}
+
+// 🔥 Load initially
+loadResults();
+
+// 🔥 Auto refresh every 3 seconds
+setInterval(loadResults, 3000);
+
+
+</script>
+
+</body>
+
+</html>

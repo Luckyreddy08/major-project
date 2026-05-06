@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Select Election</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="title">
+Select Election Type
+</div>
+
+<div class="card">
+
+<button onclick="selectElection('President')">
+President Election
+</button>
+
+<button onclick="selectElection('Vice President')">
+Vice President Election
+</button>
+
+<button onclick="openExplorer()">
+View Blockchain
+
+</button>
+
+<button onclick="openResults()">
+View Results
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function selectElection(type){
+
+localStorage.setItem("electionType",type);
+
+window.location="vote.html";
+
+}
+
+function openExplorer(){
+
+window.open("explorer.html","_blank");
+
+}
+function openResults(){
+
+window.open("results.html","_blank");
+
+}
+
+
+</script>
+
+</body>
+
+</html>
