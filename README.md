@@ -22,3 +22,26 @@ Technologies Used
 - AES Encryption
 - RSA Digital Signatures
 
+Screenshots
+
+- Login Page
+
+![Login Page](Images/login_page.jpg)
+
+- Voting Page
+
+![Voting Page](Images/voting_page.jpg)
+
+- Blockchain Ledger
+
+![Blockchain Ledger](Images/blockchain_ledger.jpg)
+
+- Blockchain Explorer
+
+![Blockchain Explorer](Images/blockchain_explorer.jpg)
+
+- Election Results
+
+![Election Results](Images/elections_results.jpg)
+
+
