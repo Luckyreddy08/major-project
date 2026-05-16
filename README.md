@@ -1,10 +1,10 @@
-Secure Blockchain-Based Online Voting System
+# Secure Blockchain-Based Online Voting System
 
-Overview
+## Overview
 
 A secure blockchain-based electronic voting system designed to ensure transparency, vote integrity, and tamper-proof election management using blockchain and cryptographic security mechanisms.
 
-Features
+## Features
 
 - JWT-based voter authentication
 - AES-256 encrypted voting
@@ -13,7 +13,7 @@ Features
 - Real-time election result visualization
 - Duplicate vote prevention
 
-Technologies Used
+## Technologies Used
 
 - Java
 - React.js
@@ -22,26 +22,48 @@ Technologies Used
 - AES Encryption
 - RSA Digital Signatures
 
-Screenshots
+## Screenshots
 
-- Login Page
+### Login Page
 
 ![Login Page](Images/login_page.jpg)
 
-- Voting Page
+### Voting Page
 
 ![Voting Page](Images/voting_page.jpg)
 
-- Blockchain Ledger
+### Blockchain Ledger
 
 ![Blockchain Ledger](Images/blockchain_ledger.jpg)
 
-- Blockchain Explorer
+### Blockchain Explorer
 
 ![Blockchain Explorer](Images/blockchain_explorer.jpg)
 
-- Election Results
+### Election Results
 
 ![Election Results](Images/elections_results.jpg)
 
+## System Architecture
 
+![System Architecture](Images/system_architecture.jpg)
+
+## Use Case Diagram
+
+![Use Case Diagram](Images/use_case_diagram.jpg)
+
+## Sequence Diagram
+
+![Sequence Diagram](Images/sequence_diagram.jpg)
+
+## Activity Diagram
+
+![Activity Diagram](Images/activity_diagram.jpg)
+
+## Data Flow Diagram Level 0
+
+![DFD Level 0](Images/dfd_level0.jpg)
+
+## Data Flow Diagram Level 1
+
+![DFD Level 1](Images/dfd_level1.jpg)
